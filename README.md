@@ -21,8 +21,8 @@ Practice the analyst workflow end to end: collect endpoint telemetry, generate r
 | Attacker | My Mac host on the host-only network, `192.168.56.1` |
 | Network | Kali has a NAT adapter for downloads and a host-only adapter (`HostNetwork1`) for lab traffic |
 
-![VirtualBox VMs and Kali configuration](screenshots/01-vm-list.png)
-![Host-only adapter](screenshots/02-host-only-adapter.png)
+![VirtualBox VMs and Kali configuration](screenshots/01-vm-list.JPG)
+![Host-only adapter](screenshots/02-host-only-adapter.JPG)
 
 ---
 
@@ -37,7 +37,7 @@ Practice the analyst workflow end to end: collect endpoint telemetry, generate r
 wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.6-1_amd64.deb && sudo WAZUH_MANAGER='192.168.56.4' WAZUH_AGENT_NAME='kali-endpoint' dpkg -i ./wazuh-agent_4.14.6-1_amd64.deb
 ```
 
-![Network check and agent install](screenshots/03-ip-ping-agent-install.png)
+![Network check and agent install](screenshots/03-ip-ping-agent-install.JPG)
 
 ---
 
@@ -61,9 +61,9 @@ ERROR: (1216): Unable to connect to '[192.168.56.4]:1514/tcp': 'Transport endpoi
 4. `ss` now showed `wazuh-remoted` listening on TCP `0.0.0.0:1514`.
 5. After restarting the agent on Kali, it started collecting logs, and the dashboard showed `kali-endpoint` (ID 002, v4.14.6) as **active**.
 
-![Agent connection errors](screenshots/04-agent-connection-errors.png)
-![Config diagnosis and fix on the server](screenshots/05-ossec-conf-fix.png)
-![Agent active in the dashboard](screenshots/06-agent-active.png)
+![Agent connection errors](screenshots/04-agent-connection-errors.JPG)
+![Config diagnosis and fix on the server](screenshots/05-ossec-conf-fix.JPG)
+![Agent active in the dashboard](screenshots/06-agent-active.JPG)
 
 **Takeaway:** a restart does not prove the config took effect. Back up before editing, then confirm the listening ports after every change.
 
@@ -77,7 +77,7 @@ ERROR: (1216): Unable to connect to '[192.168.56.4]:1514/tcp': 'Transport endpoi
 | 2 | Sudo to root | On Kali, `sudo systemctl start ssh` to enable SSH for the test |
 | 3 | Account creation | On Kali, `sudo useradd labtest` |
 
-![SSH attempts from the host](screenshots/07-ssh-fakeuser-attempts.png)
+![SSH attempts from the host](screenshots/07-ssh-fakeuser-attempts.JPG)
 
 **Note on timestamps:** the dashboard shows my local time (for example 08:40:56), while the raw `full_log` line carries the endpoint's own clock (13:40:35). I use dashboard time in the timeline below.
 
@@ -87,7 +87,7 @@ ERROR: (1216): Unable to connect to '[192.168.56.4]:1514/tcp': 'Transport endpoi
 
 The Threat Hunting view showed 236 events in the hour I was testing.
 
-![Events overview](screenshots/08-events-overview.png)
+![Events overview](screenshots/08-events-overview.JPG)
 
 ### Alert 1: Rule 2502 (level 10), repeated authentication failures
 - **MITRE ATT&CK:** T1110 Brute Force (Credential Access)
@@ -97,8 +97,8 @@ The Threat Hunting view showed 236 events in the hour I was testing.
 - **Verdict:** True positive, expected. It came from my own SSH attempts.
 - **In a real environment:** check whether a successful login (rule 5715) follows from the same source, block or rate-limit it, and review the targeted account.
 
-![Rule 2502 log details](screenshots/09-alert-2502-log.png)
-![Rule 2502 MITRE mapping](screenshots/10-alert-2502-mitre.png)
+![Rule 2502 log details](screenshots/09-alert-2502-log.JPG)
+![Rule 2502 MITRE mapping](screenshots/10-alert-2502-mitre.JPG)
 
 ### Alert 2: Rule 5710 (level 5), login attempt for a non-existent user
 - **MITRE ATT&CK:** T1110.001 Password Guessing (Credential Access) and T1021.004 SSH (Lateral Movement)
@@ -108,8 +108,8 @@ The Threat Hunting view showed 236 events in the hour I was testing.
 - **Verdict:** True positive, expected (my own test).
 - **In a real environment:** look for the same source trying other usernames, especially `root` and `admin`, and for any switch to real accounts.
 
-![Rule 5710 log details](screenshots/11-alert-5710-log.png)
-![Rule 5710 MITRE mapping](screenshots/12-alert-5710-mitre.png)
+![Rule 5710 log details](screenshots/11-alert-5710-log.JPG)
+![Rule 5710 MITRE mapping](screenshots/12-alert-5710-mitre.JPG)
 
 ### Alert 3: Rule 5402 (level 3), successful sudo to root
 - **MITRE ATT&CK:** T1548.003 Sudo and Sudo Caching (Privilege Escalation, Defense Evasion)
@@ -119,8 +119,8 @@ The Threat Hunting view showed 236 events in the hour I was testing.
 - **Verdict:** Benign. It was my own action to start SSH for the test.
 - **In a real environment:** judge it by who ran it, when, and what came before. Sudo starting a network service right after failed logins would be a serious red flag.
 
-![Rule 5402 log details](screenshots/13-alert-5402-log.png)
-![Rule 5402 MITRE mapping](screenshots/14-alert-5402-mitre.png)
+![Rule 5402 log details](screenshots/13-alert-5402-log.JPG)
+![Rule 5402 MITRE mapping](screenshots/14-alert-5402-mitre.JPG)
 
 ### Alert 4: Rule 5902 (level 8), new user added to the system
 - **MITRE ATT&CK:** T1136 Create Account (Persistence)
@@ -130,8 +130,8 @@ The Threat Hunting view showed 236 events in the hour I was testing.
 - **Verdict:** Benign, expected. It was my own test account.
 - **In a real environment:** confirm it matches an approved change, check who created it and from where, review its group memberships and any SSH keys, and remove it if unauthorised.
 
-![useradd log details](screenshots/15-useradd-labtest-log.png)
-![Rule 5902 MITRE mapping](screenshots/16-alert-5902-mitre.png)
+![useradd log details](screenshots/15-useradd-labtest-log.JPG)
+![Rule 5902 MITRE mapping](screenshots/16-alert-5902-mitre.JPG)
 
 ---
 
@@ -154,7 +154,7 @@ The Threat Hunting view showed 236 events in the hour I was testing.
 
 - Add Wazuh active response to block repeated SSH failures automatically.
 - Add a Windows endpoint with Sysmon.
-- Attack-and-detect lab against an intentionally vulnerable Metasploitable2 VM.
+- Attacks against an intentionally vulnerable target: see my [Metasploitable2 penetration testing lab](https://github.com/abefeabimbola5811-jpg/Metasploitable2-penetration-testing-lab).
 
 ## Tools
 
