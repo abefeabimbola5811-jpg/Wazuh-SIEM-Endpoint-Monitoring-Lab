@@ -1,2 +1,1 @@
-# Wazuh-SIEM-Endpoint-Monitoring-Lab
-Hands-on SOC lab deploying Wazuh SIEM, configuring Linux endpoint agents, simulating brute-force/privilege escalation attacks, and mapping alerts to MITRE ATT&amp;CK.
+Hands-on SOC lab: deploy a Wazuh SIEM, enroll a Linux endpoint, simulate brute-force and privilege-escalation activity, then triage the resulting alerts and map them to MITRE ATT&CK.
