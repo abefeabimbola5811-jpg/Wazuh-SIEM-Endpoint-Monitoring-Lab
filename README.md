@@ -3,6 +3,7 @@
 Hands-on SOC lab: deploy a Wazuh SIEM, connect a Linux endpoint, generate brute-force, sudo and account-creation activity, then triage each alert and map it to MITRE ATT&CK.
 
 **Author:** Oladosu Felix Abimbola
+
 **Scope:** all activity was run against my own isolated lab machines.
 
 ---
